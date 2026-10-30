@@ -1,0 +1,26 @@
+node_modules
+.turbo
+.DS_Store
+.idea/
+
+# Secrets — .env.production dirujuk docker-compose.prod.yml dan hidup di root
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+auth_info_baileys
+apps/wa-bot/auth_info_baileys/
+
+.claude/settings.local.json
+.claude/*.local.json
+# Laporan Monev: berkas PPTX dan hasil screenshot tidak ikut git
+*.pptx
+screenshots/
+# Aset video HKI (klip MP4 hasil scripts/video) tidak ikut git
+video_assets/
+# Media lokal dev (foto profil, kuitansi) - produksi memakai volume amwal_media
+.media/
+
+# Hasil build lokal
+dist/

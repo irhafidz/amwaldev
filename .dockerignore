@@ -1,0 +1,38 @@
+# Pola di bawah SENGAJA memakai awalan `**/`.
+#
+# Docker mencocokkan pola `.dockerignore` terhadap path relatif dari akar
+# konteks, dan pola tanpa `/` hanya cocok di AKAR — bukan di sembarang
+# kedalaman seperti `.gitignore`. Versi sebelumnya menulis `node_modules`,
+# sehingga `apps/wa-bot/node_modules` dan `apps/web/node_modules` IKUT masuk
+# konteks build. Akibatnya:
+#
+#   1. `COPY apps/wa-bot ./` di apps/wa-bot/Dockerfile gagal total dengan
+#      "cannot replace to directory .../node_modules/@types/bun with file" —
+#      `@types/bun` di mesin pengembang adalah symlink ke store `.bun`, dan
+#      BuildKit tidak bisa menimpa direktori hasil `bun install` di layer
+#      sebelumnya dengan symlink itu.
+#   2. `apps/wa-bot/.env` ikut ter-`COPY` ke dalam image — kredensial
+#      pengembang ikut terpanggang di layer image.
+#
+# `.env` juga ditutup di sini untuk alasan yang sama — dan pola itu pun butuh
+# awalan `**/`: `.env` saja hanya menutup `.env` di akar, sementara yang bocor
+# justru `apps/wa-bot/.env` dan `apps/web/.env`. Image tidak pernah butuh
+# berkas itu; compose membacanya dari host saat runtime lewat `env_file:`.
+# Kalau ada `VITE_*` yang harus terpanggang ke bundle, lewatkan sebagai build
+# arg — jangan dari `.env` pengembang, yang isinya kredensial lokal.
+**/node_modules
+**/.turbo
+**/.output
+**/.nitro
+**/.tanstack
+**/dist
+.git
+.gitignore
+README.md
+*.log
+.vscode
+.serena
+.claude
+.husky
+**/.env
+**/.env.*

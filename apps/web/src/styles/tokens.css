@@ -1,0 +1,193 @@
+/*
+ * Amwal design tokens — ported from the legacy Hi-Fi tokens documented in
+ * amwal/docs/DESIGN_SYSTEM.md and amwal/app/globals.css.
+ *
+ * Colors are the visual estimates the legacy repo used consistently across
+ * components; they must be verified against the Figma file before a
+ * production launch (see DESIGN_SYSTEM.md §2). Typography, radius, and
+ * breakpoint values are exact from the design guideline.
+ */
+@theme {
+  /* Fonts */
+  --font-jakarta:
+    "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+
+  /* Brand */
+  --color-brand-50: #f2f6f4;
+  --color-brand-100: #e2ece8;
+  --color-brand-500: #356152;
+  --color-brand-600: #2b4f43;
+  --color-brand-800: #1d352d;
+  --color-brand-primary: #356152;
+  --color-brand-primary-hover: #2b4f43;
+  --color-brand-primary-soft: #427563;
+  --color-brand-dark: #1d352d;
+
+  /*
+   * Primitive palette overrides carried over from the legacy backoffice
+   * (amwalheti/app/globals.css @theme). The backoffice views lean on
+   * `bg-amber-50`, `bg-blue-100`, `ring-amber-500` etc. with these exact
+   * hexes; without them Tailwind v4's defaults render a visibly different
+   * cream/blue. Values sit within one Tailwind step of the defaults, so the
+   * handful of pre-existing user-app usages shift sub-perceptually.
+   * Brand tokens above stay authoritative — the legacy #22A559 is NOT
+   * reintroduced (see Day 1-2 audit, tokens.css rationale).
+   */
+  --color-green-50: #e8f5e9;
+  --color-green-500: #22a559;
+  --color-green-700: #14532d;
+  --color-amber-50: #fff8e1;
+  --color-amber-500: #f5b301;
+  --color-red-500: #dc2626;
+  --color-blue-100: #e3f2fd;
+
+  /* Backgrounds & surfaces */
+  --color-bg-default: #ffffff;
+  --color-bg-surface: #f5f5f5;
+  --color-bg-surface-alt: #eef1f4;
+  --color-bg-cream: #fff8e7;
+  --color-bg-green-tint: #e2ece8;
+  --color-bg-red-tint: #fdecea;
+  --color-bg-blue-tint: #e3f2fd;
+
+  /* Accents */
+  --color-accent-amber: #f5b301;
+  --color-accent-red: #e53935;
+
+  /* Text */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #64748b;
+  --color-text-on-brand: #ffffff;
+  --color-text-muted: #9ca3af;
+
+  /* Borders */
+  --color-border-default: #e0e0e0;
+  --color-border-subtle: #eeeeee;
+
+  /* Icons */
+  --color-icon-brand: #356152;
+  --color-icon-amber: #f5b301;
+  --color-icon-red: #e53935;
+  --color-icon-info: #60a5fa;
+
+  /* Status */
+  --color-status-error: #dc2626;
+  --color-status-warning: #d97706;
+  --color-status-info: #2563eb;
+  --color-status-success: #34d399;
+
+  /* Typography — text styles from the Figma guideline */
+  --text-display-xl: 32px;
+  --text-display-xl--line-height: 38px;
+  --text-display-xl--font-weight: 800;
+
+  --text-heading-l: 24px;
+  --text-heading-l--line-height: 30px;
+  --text-heading-l--font-weight: 700;
+
+  --text-heading-m: 20px;
+  --text-heading-m--line-height: 26px;
+  --text-heading-m--font-weight: 600;
+
+  --text-title-s: 16px;
+  --text-title-s--line-height: 22px;
+  --text-title-s--font-weight: 600;
+
+  --text-body-base: 14px;
+  --text-body-base--line-height: 20px;
+  --text-body-base--font-weight: 400;
+
+  --text-body-medium: 14px;
+  --text-body-medium--line-height: 20px;
+  --text-body-medium--font-weight: 500;
+
+  --text-label-button: 14px;
+  --text-label-button--line-height: 18px;
+  --text-label-button--font-weight: 600;
+
+  --text-label-caption: 12px;
+  --text-label-caption--line-height: 16px;
+  --text-label-caption--font-weight: 500;
+
+  --text-caption-mini: 10px;
+  --text-caption-mini--line-height: 14px;
+  --text-caption-mini--font-weight: 400;
+
+  /* Radius */
+  --radius-card: 16px;
+  --radius-field: 12px;
+  --radius-pill: 999px;
+
+  /* Breakpoints */
+  --breakpoint-tablet: 600px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+}
+
+/*
+ * Dark-mode overrides for the tokens above. `globals.css` only redefines the
+ * shadcn primitives (`--background`, `--foreground`, ...) under `.dark` —
+ * the vast majority of screens are built with these Amwal-brand tokens
+ * instead (`bg-bg-default`, `text-text-primary`, `border-border-subtle`,
+ * ...), so without this block toggling dark mode changed almost nothing
+ * visible on screen.
+ */
+.dark {
+  --color-bg-default: #0f172a;
+  --color-bg-surface: #1e293b;
+  --color-bg-surface-alt: #334155;
+  --color-bg-cream: #451a03;
+  --color-bg-green-tint: #14532d;
+  --color-bg-red-tint: #450a0a;
+  --color-bg-blue-tint: #1e3a5f;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  --color-border-default: #334155;
+  --color-border-subtle: #334155;
+
+  --color-status-error: #ef4444;
+  --color-status-warning: #f59e0b;
+  --color-status-info: #3b82f6;
+
+  --color-accent-red: #f87171;
+}
+
+@layer utilities {
+  /* Shadows — approximate values; verify against Figma when available. */
+  .shadow-card {
+    box-shadow:
+      0 1px 3px rgba(15, 23, 42, 0.08),
+      0 1px 2px rgba(15, 23, 42, 0.04);
+  }
+
+  .shadow-card-hover {
+    box-shadow:
+      0 4px 6px rgba(15, 23, 42, 0.1),
+      0 2px 4px rgba(15, 23, 42, 0.06);
+  }
+
+  .shadow-floating {
+    box-shadow:
+      0 10px 15px rgba(15, 23, 42, 0.12),
+      0 4px 6px rgba(15, 23, 42, 0.08);
+  }
+
+  .shadow-soft {
+    box-shadow:
+      0 4px 20px -2px rgba(27, 94, 32, 0.05),
+      0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

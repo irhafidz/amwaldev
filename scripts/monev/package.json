@@ -1,0 +1,9 @@
+{
+  "name": "amwal-monev-tools",
+  "private": true,
+  "type": "module",
+  "description": "Alat sekali pakai untuk laporan Monev (screenshot + PPTX). Bukan bagian dari workspace aplikasi.",
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}

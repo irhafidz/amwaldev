@@ -1,0 +1,103 @@
+name: amwal-prod
+
+# ==========================================================================
+# Putaran 17, Batch 6 — apps/server decommissioned. `web` (TanStack Start +
+# oRPC) is now the single application service; it owns the only database
+# connection and the only Baileys/wa-bot connection.
+#
+# ROUTING & TLS ditangani Traefik di Dokploy — container reverse proxy (Caddy)
+# sudah dihapus, sehingga TIDAK ADA service yang publish `ports:` ke host.
+# `wa-bot` khususnya tidak dapat dijangkau dari internet — perbaikan
+# struktural AMW-02 (bukan sekadar ditambal header secret).
+#
+# TIDAK ADA container database. Database adalah Supabase, port 5432 session
+# mode, dipegang HANYA oleh `web` (satu-satunya aplikasi yang tersisa).
+#
+# Image web juga TIDAK lagi ditarik dari GHCR — `web` di-build dari Dockerfile
+# root, supaya Dokploy tidak bergantung pada registry eksternal.
+#
+# PERINTAH DEPLOY (di VPS) — flag --env-file WAJIB, jangan disingkat:
+#
+#   docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+#
+# Tanpa flag itu, Docker Compose mencari interpolasi ${...} di berkas
+# bernama `.env` saja, dan `INTERNAL_SECRET` gagal ter-resolve saat start.
+# Contoh isi berkasnya ada di .env.production.example.
+# ==========================================================================
+
+services:
+  # ---- Aplikasi tunggal: TanStack Start + oRPC + satu-satunya pemegang
+  #      Supabase dan koneksi wa-bot ----------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: amwal_web
+    restart: unless-stopped
+    # TIDAK ADA `ports:` — dijangkau Traefik/Dokploy lewat jaringan internal.
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Jaringan internal Docker, bukan rahasia — panggilan browser tetap
+      # lewat path relatif /api/admin/settings/baileys/* (same-origin, ikut
+      # cookie httpOnly). Ini hanya dipakai server-side oleh admin.settings
+      # dan hook onSettled webhook pembayaran.
+      - BAILEYS_SERVICE_URL=http://wa-bot:3005
+      # Media (foto profil, kuitansi belanja) disimpan di volume Docker
+      # persisten `amwal_media` — bukan lagi Supabase Storage (keputusan D4).
+      # Path ini WAJIB sama dengan mount di `volumes:` di bawah; tanpa
+      # MEDIA_ROOT aplikasi menolak menyimpan berkas (fail-closed), dan tanpa
+      # volume berkas hilang setiap redeploy.
+      - MEDIA_ROOT=/app/media
+    volumes:
+      - amwal_media:/app/media
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      # Entrypoint menjalankan migrasi Drizzle SEBELUM server naik
+      # (docker-entrypoint.sh), jadi jendela ini harus menutupi migrasi +
+      # boot, bukan hanya boot. Dinaikkan dari 20s → 60s; kalau DB sempat
+      # tidak terjangkau, entrypoint sendiri yang mengulang dengan backoff
+      # (DB_MIGRATE_MAX_ATTEMPTS × DB_MIGRATE_RETRY_DELAY) selama ini.
+      start_period: 60s
+    depends_on:
+      wa-bot:
+        condition: service_started
+    networks: [amwal_internal]
+
+  # ---- Daemon WhatsApp: Bun build, Node 20 runtime -----------------------
+  wa-bot:
+    build:
+      context: .
+      dockerfile: apps/wa-bot/Dockerfile
+    container_name: amwal_wa_bot
+    restart: unless-stopped
+    # TIDAK ADA `ports:` — inilah yang membuat AMW-02 mustahil, bukan sulit.
+    # Hanya `web` yang boleh memanggilnya, lewat http://wa-bot:3005
+    environment:
+      - NODE_ENV=production
+      - PORT=3005
+      - INTERNAL_SECRET=${INTERNAL_SECRET:?INTERNAL_SECRET wajib diisi}
+    volumes:
+      # Menutup AMW-16: sesi Baileys selamat dari restart & redeploy.
+      # Path ini WAJIB sama persis dengan ENV BAILEYS_SESSION_DIR di
+      # apps/wa-bot/Dockerfile. Sebelumnya keduanya berbeda
+      # (auth_info_baileys vs auth_session), sehingga volume ter-mount ke
+      # direktori yang tidak pernah ditulis aplikasi dan sesi tetap hilang
+      # setiap redeploy tanpa satu pun pesan error.
+      - wa_session:/app/apps/wa-bot/auth_session
+    networks: [amwal_internal]
+
+networks:
+  amwal_internal:
+    driver: bridge
+
+volumes:
+  wa_session:
+  # Foto profil + kuitansi. Cadangkan seperti database:
+  #   docker run --rm -v amwal-prod_amwal_media:/m -v $PWD:/b alpine   #     tar czf /b/amwal_media.tgz -C /m .
+  amwal_media:

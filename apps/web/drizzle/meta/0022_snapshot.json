@@ -1,0 +1,5931 @@
+{
+  "id": "ee9d1b20-b179-4cb4-b987-b605b77296d0",
+  "prevId": "b0b9eaea-1976-4107-a0ad-0933ed3f00bc",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.affiliate_attributions": {
+      "name": "affiliate_attributions",
+      "schema": "",
+      "columns": {
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "referrer_user_id": {
+          "name": "referrer_user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "referral_code": {
+          "name": "referral_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "captured_at": {
+          "name": "captured_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "affiliate_attributions_referrer_idx": {
+          "name": "affiliate_attributions_referrer_idx",
+          "columns": [
+            {
+              "expression": "referrer_user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "captured_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "timestamp_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "affiliate_attributions_transaction_id_fkey": {
+          "name": "affiliate_attributions_transaction_id_fkey",
+          "tableFrom": "affiliate_attributions",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "affiliate_attributions_referrer_user_id_fkey": {
+          "name": "affiliate_attributions_referrer_user_id_fkey",
+          "tableFrom": "affiliate_attributions",
+          "tableTo": "users",
+          "columnsFrom": ["referrer_user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.affiliate_clicks": {
+      "name": "affiliate_clicks",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "referral_code": {
+          "name": "referral_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "click_hash": {
+          "name": "click_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "click_date": {
+          "name": "click_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "affiliate_clicks_code_hash_date_key": {
+          "name": "affiliate_clicks_code_hash_date_key",
+          "columns": [
+            {
+              "expression": "referral_code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "click_hash",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "click_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "date_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.affiliate_codes": {
+      "name": "affiliate_codes",
+      "schema": "",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "affiliate_codes_code_key": {
+          "name": "affiliate_codes_code_key",
+          "columns": [
+            {
+              "expression": "code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "affiliate_codes_user_id_fkey": {
+          "name": "affiliate_codes_user_id_fkey",
+          "tableFrom": "affiliate_codes",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.akad_acceptances": {
+      "name": "akad_acceptances",
+      "schema": "",
+      "columns": {
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "akad_template_id": {
+          "name": "akad_template_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "body_sha256": {
+          "name": "body_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accepted_at": {
+          "name": "accepted_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "akad_acceptances_transaction_id_fkey": {
+          "name": "akad_acceptances_transaction_id_fkey",
+          "tableFrom": "akad_acceptances",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "akad_acceptances_akad_template_id_fkey": {
+          "name": "akad_acceptances_akad_template_id_fkey",
+          "tableFrom": "akad_acceptances",
+          "tableTo": "akad_templates",
+          "columnsFrom": ["akad_template_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.akad_templates": {
+      "name": "akad_templates",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "module": {
+          "name": "module",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_by_id": {
+          "name": "created_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "akad_templates_module_version_key": {
+          "name": "akad_templates_module_version_key",
+          "columns": [
+            {
+              "expression": "module",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "version",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "int4_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "akad_templates_one_active_per_module": {
+          "name": "akad_templates_one_active_per_module",
+          "columns": [
+            {
+              "expression": "module",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"akad_templates\".\"is_active\"",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "akad_templates_created_by_id_fkey": {
+          "name": "akad_templates_created_by_id_fkey",
+          "tableFrom": "akad_templates",
+          "tableTo": "users",
+          "columnsFrom": ["created_by_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "akad_templates_module_check": {
+          "name": "akad_templates_module_check",
+          "value": "\"akad_templates\".\"module\" IN ('WAKAF', 'ZAKAT', 'INFAQ', 'SEDEKAH', 'QURBAN')"
+        },
+        "akad_templates_version_check": {
+          "name": "akad_templates_version_check",
+          "value": "\"akad_templates\".\"version\" >= 1"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.akad_waqaf_master": {
+      "name": "akad_waqaf_master",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jenis_wakaf": {
+          "name": "jenis_wakaf",
+          "type": "WaqfType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.certificates": {
+      "name": "certificates",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jenis_sertifikat": {
+          "name": "jenis_sertifikat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_internal_amwal": {
+          "name": "nomor_internal_amwal",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nomor_registrasi_bwi": {
+          "name": "nomor_registrasi_bwi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pdf_url": {
+          "name": "pdf_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "issued_at": {
+          "name": "issued_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "certificates_nomor_internal_amwal_key": {
+          "name": "certificates_nomor_internal_amwal_key",
+          "columns": [
+            {
+              "expression": "nomor_internal_amwal",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "certificates_transaction_id_key": {
+          "name": "certificates_transaction_id_key",
+          "columns": [
+            {
+              "expression": "transaction_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "certificates_transaction_id_fkey": {
+          "name": "certificates_transaction_id_fkey",
+          "tableFrom": "certificates",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.chatbot_conversations": {
+      "name": "chatbot_conversations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "domain_scope": {
+          "name": "domain_scope",
+          "type": "ChatbotDomain",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'WAKAF_PRODUKTIF'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "chatbot_conversations_user_id_fkey": {
+          "name": "chatbot_conversations_user_id_fkey",
+          "tableFrom": "chatbot_conversations",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.chatbot_messages": {
+      "name": "chatbot_messages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "conversation_id": {
+          "name": "conversation_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "ChatbotRole",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cited_sources": {
+          "name": "cited_sources",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "chatbot_messages_conversation_id_fkey": {
+          "name": "chatbot_messages_conversation_id_fkey",
+          "tableFrom": "chatbot_messages",
+          "tableTo": "chatbot_conversations",
+          "columnsFrom": ["conversation_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.education_article_comments": {
+      "name": "education_article_comments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "article_id": {
+          "name": "article_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author_name": {
+          "name": "author_name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "comment": {
+          "name": "comment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "education_article_comments_article_id_fkey": {
+          "name": "education_article_comments_article_id_fkey",
+          "tableFrom": "education_article_comments",
+          "tableTo": "education_articles",
+          "columnsFrom": ["article_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "education_article_comments_user_id_fkey": {
+          "name": "education_article_comments_user_id_fkey",
+          "tableFrom": "education_article_comments",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.education_articles": {
+      "name": "education_articles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "category_id": {
+          "name": "category_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cover_image_url": {
+          "name": "cover_image_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author_name": {
+          "name": "author_name",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Super Admin Edukasi Amwal'"
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'published'"
+        },
+        "likes_count": {
+          "name": "likes_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "education_articles_slug_key": {
+          "name": "education_articles_slug_key",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "education_articles_category_id_fkey": {
+          "name": "education_articles_category_id_fkey",
+          "tableFrom": "education_articles",
+          "tableTo": "education_categories",
+          "columnsFrom": ["category_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.education_categories": {
+      "name": "education_categories",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "varchar(120)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "education_categories_type_slug_key": {
+          "name": "education_categories_type_slug_key",
+          "columns": [
+            {
+              "expression": "type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "education_categories_type_check": {
+          "name": "education_categories_type_check",
+          "value": "\"education_categories\".\"type\" IN ('article', 'video')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.education_content_likes": {
+      "name": "education_content_likes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_type": {
+          "name": "content_type",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_id": {
+          "name": "content_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "education_content_likes_user_content_key": {
+          "name": "education_content_likes_user_content_key",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "content_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "content_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "uuid_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "education_content_likes_user_id_fkey": {
+          "name": "education_content_likes_user_id_fkey",
+          "tableFrom": "education_content_likes",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "education_content_likes_type_check": {
+          "name": "education_content_likes_type_check",
+          "value": "\"education_content_likes\".\"content_type\" IN ('article', 'video')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.education_contents": {
+      "name": "education_contents",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "judul": {
+          "name": "judul",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipe": {
+          "name": "tipe",
+          "type": "EducationType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "konten_url": {
+          "name": "konten_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kategori": {
+          "name": "kategori",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_url": {
+          "name": "cover_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "author_id": {
+          "name": "author_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'DRAFT'"
+        },
+        "likes_count": {
+          "name": "likes_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "education_contents_slug_key": {
+          "name": "education_contents_slug_key",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"education_contents\".\"slug\" IS NOT NULL",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "education_contents_status_published_idx": {
+          "name": "education_contents_status_published_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "timestamp_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "education_contents_author_id_fkey": {
+          "name": "education_contents_author_id_fkey",
+          "tableFrom": "education_contents",
+          "tableTo": "users",
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "education_contents_status_check": {
+          "name": "education_contents_status_check",
+          "value": "\"education_contents\".\"status\" IN ('DRAFT', 'PUBLISHED', 'ARCHIVED')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.education_quiz_attempts": {
+      "name": "education_quiz_attempts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "article_id": {
+          "name": "article_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correct_count": {
+          "name": "correct_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_questions": {
+          "name": "total_questions",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "education_quiz_attempts_article_id_fkey": {
+          "name": "education_quiz_attempts_article_id_fkey",
+          "tableFrom": "education_quiz_attempts",
+          "tableTo": "education_articles",
+          "columnsFrom": ["article_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "education_quiz_attempts_user_id_fkey": {
+          "name": "education_quiz_attempts_user_id_fkey",
+          "tableFrom": "education_quiz_attempts",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.education_quiz_questions": {
+      "name": "education_quiz_questions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "article_id": {
+          "name": "article_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question": {
+          "name": "question",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "options": {
+          "name": "options",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correct_key": {
+          "name": "correct_key",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "explanation": {
+          "name": "explanation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "order_index": {
+          "name": "order_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "education_quiz_questions_article_id_fkey": {
+          "name": "education_quiz_questions_article_id_fkey",
+          "tableFrom": "education_quiz_questions",
+          "tableTo": "education_articles",
+          "columnsFrom": ["article_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.education_videos": {
+      "name": "education_videos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "category_id": {
+          "name": "category_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_type": {
+          "name": "source_type",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "video_url": {
+          "name": "video_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "speaker": {
+          "name": "speaker",
+          "type": "varchar(150)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "thumbnail_url": {
+          "name": "thumbnail_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "likes_count": {
+          "name": "likes_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'published'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "education_videos_category_id_fkey": {
+          "name": "education_videos_category_id_fkey",
+          "tableFrom": "education_videos",
+          "tableTo": "education_categories",
+          "columnsFrom": ["category_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "education_videos_source_type_check": {
+          "name": "education_videos_source_type_check",
+          "value": "\"education_videos\".\"source_type\" IN ('upload', 'embed')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.fund_pools": {
+      "name": "fund_pools",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "kode": {
+          "name": "kode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nama": {
+          "name": "nama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "balance": {
+          "name": "balance",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "total_distributed": {
+          "name": "total_distributed",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "fund_pools_kode_key": {
+          "name": "fund_pools_kode_key",
+          "columns": [
+            {
+              "expression": "kode",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.fund_withdrawal_requests": {
+      "name": "fund_withdrawal_requests",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "peruntukan": {
+          "name": "peruntukan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rekening_tujuan": {
+          "name": "rekening_tujuan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "admin_notes": {
+          "name": "admin_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "requested_by_id": {
+          "name": "requested_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "approved_by_id": {
+          "name": "approved_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "WithdrawalStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "reviewed_at": {
+          "name": "reviewed_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "fund_withdrawal_requests_approved_by_id_fkey": {
+          "name": "fund_withdrawal_requests_approved_by_id_fkey",
+          "tableFrom": "fund_withdrawal_requests",
+          "tableTo": "users",
+          "columnsFrom": ["approved_by_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "fund_withdrawal_requests_requested_by_id_fkey": {
+          "name": "fund_withdrawal_requests_requested_by_id_fkey",
+          "tableFrom": "fund_withdrawal_requests",
+          "tableTo": "users",
+          "columnsFrom": ["requested_by_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "fund_withdrawal_requests_waqf_program_id_fkey": {
+          "name": "fund_withdrawal_requests_waqf_program_id_fkey",
+          "tableFrom": "fund_withdrawal_requests",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.gamification_point_ledgers": {
+      "name": "gamification_point_ledgers",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "activity_type": {
+          "name": "activity_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "points_earned": {
+          "name": "points_earned",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "idempotency_key": {
+          "name": "idempotency_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source_ref": {
+          "name": "source_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "gamification_point_ledgers_idempotency_key_key": {
+          "name": "gamification_point_ledgers_idempotency_key_key",
+          "columns": [
+            {
+              "expression": "idempotency_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "gamification_point_ledgers_user_created_idx": {
+          "name": "gamification_point_ledgers_user_created_idx",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "timestamp_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "gamification_point_ledgers_user_id_fkey": {
+          "name": "gamification_point_ledgers_user_id_fkey",
+          "tableFrom": "gamification_point_ledgers",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.hewan_batches": {
+      "name": "hewan_batches",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "jenis_hewan": {
+          "name": "jenis_hewan",
+          "type": "HewanType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_slot": {
+          "name": "total_slot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "harga_per_slot": {
+          "name": "harga_per_slot",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "HewanBatchStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'TERSEDIA'"
+        },
+        "ras": {
+          "name": "ras",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kelas_grade": {
+          "name": "kelas_grade",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estimasi_berat_kg": {
+          "name": "estimasi_berat_kg",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jenis_kelamin": {
+          "name": "jenis_kelamin",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "wilayah_penyaluran": {
+          "name": "wilayah_penyaluran",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "target_penerima_manfaat": {
+          "name": "target_penerima_manfaat",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tanggal_penyembelihan_estimasi": {
+          "name": "tanggal_penyembelihan_estimasi",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "galeri_foto_urls": {
+          "name": "galeri_foto_urls",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_batch": {
+          "name": "nama_batch",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lokasi_rph": {
+          "name": "lokasi_rph",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tim_juleha": {
+          "name": "tim_juleha",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dokumentasi_video_url": {
+          "name": "dokumentasi_video_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dokumentasi_media": {
+          "name": "dokumentasi_media",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.infaq_orders": {
+      "name": "infaq_orders",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order_id": {
+          "name": "order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_penginfaq": {
+          "name": "nama_penginfaq",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telepon_penginfaq": {
+          "name": "telepon_penginfaq",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email_penginfaq": {
+          "name": "email_penginfaq",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nominal": {
+          "name": "nominal",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jenis": {
+          "name": "jenis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "doa": {
+          "name": "doa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "snap_token": {
+          "name": "snap_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snap_redirect_url": {
+          "name": "snap_redirect_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metode_manual": {
+          "name": "metode_manual",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "infaq_orders_order_id_key": {
+          "name": "infaq_orders_order_id_key",
+          "columns": [
+            {
+              "expression": "order_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "infaq_orders_transaction_id_key": {
+          "name": "infaq_orders_transaction_id_key",
+          "columns": [
+            {
+              "expression": "transaction_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "infaq_orders_program_id_idx": {
+          "name": "infaq_orders_program_id_idx",
+          "columns": [
+            {
+              "expression": "program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "infaq_orders_user_id_fkey": {
+          "name": "infaq_orders_user_id_fkey",
+          "tableFrom": "infaq_orders",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "infaq_orders_transaction_id_fkey": {
+          "name": "infaq_orders_transaction_id_fkey",
+          "tableFrom": "infaq_orders",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "infaq_orders_program_id_fkey": {
+          "name": "infaq_orders_program_id_fkey",
+          "tableFrom": "infaq_orders",
+          "tableTo": "infaq_programs",
+          "columnsFrom": ["program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "infaq_orders_jenis_check": {
+          "name": "infaq_orders_jenis_check",
+          "value": "\"infaq_orders\".\"jenis\" IN ('INFAQ_SUBUH', 'INFAQ_JUMAT', 'INFAQ_UMUM', 'SEDEKAH_YATIM', 'SEDEKAH_OPERASIONAL')"
+        },
+        "infaq_orders_status_check": {
+          "name": "infaq_orders_status_check",
+          "value": "\"infaq_orders\".\"status\" IN ('PENDING', 'SETTLED', 'EXPIRED', 'FAILED')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.infaq_programs": {
+      "name": "infaq_programs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nama": {
+          "name": "nama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jenis": {
+          "name": "jenis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "deskripsi": {
+          "name": "deskripsi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "target": {
+          "name": "target",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'AKTIF'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "infaq_programs_jenis_check": {
+          "name": "infaq_programs_jenis_check",
+          "value": "\"infaq_programs\".\"jenis\" IN ('INFAQ_SUBUH', 'INFAQ_JUMAT', 'INFAQ_UMUM', 'SEDEKAH_YATIM', 'SEDEKAH_OPERASIONAL')"
+        },
+        "infaq_programs_status_check": {
+          "name": "infaq_programs_status_check",
+          "value": "\"infaq_programs\".\"status\" IN ('AKTIF', 'SELESAI', 'DRAF')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.jenis_infaq_master": {
+      "name": "jenis_infaq_master",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "kode": {
+          "name": "kode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "jenis_infaq_master_kode_key": {
+          "name": "jenis_infaq_master_kode_key",
+          "columns": [
+            {
+              "expression": "kode",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "jenis_infaq_master_kode_check": {
+          "name": "jenis_infaq_master_kode_check",
+          "value": "\"jenis_infaq_master\".\"kode\" IN ('INFAQ_SUBUH', 'INFAQ_JUMAT', 'INFAQ_UMUM', 'SEDEKAH_YATIM', 'SEDEKAH_OPERASIONAL')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.jenis_zakat_master": {
+      "name": "jenis_zakat_master",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "kode": {
+          "name": "kode",
+          "type": "ZakatType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "jenis_zakat_master_kode_key": {
+          "name": "jenis_zakat_master_kode_key",
+          "columns": [
+            {
+              "expression": "kode",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.kategori_waqaf_master": {
+      "name": "kategori_waqaf_master",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.mauquf_alaih_distributions": {
+      "name": "mauquf_alaih_distributions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "withdrawal_request_id": {
+          "name": "withdrawal_request_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_penerima_manfaat": {
+          "name": "nama_penerima_manfaat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kategori_penerima": {
+          "name": "kategori_penerima",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nominal_disalurkan": {
+          "name": "nominal_disalurkan",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "barang_disalurkan": {
+          "name": "barang_disalurkan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tanggal_penyaluran": {
+          "name": "tanggal_penyaluran",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bukti_penyaluran_url": {
+          "name": "bukti_penyaluran_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "mauquf_alaih_distributions_waqf_program_id_fkey": {
+          "name": "mauquf_alaih_distributions_waqf_program_id_fkey",
+          "tableFrom": "mauquf_alaih_distributions",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "mauquf_alaih_distributions_withdrawal_request_id_fkey": {
+          "name": "mauquf_alaih_distributions_withdrawal_request_id_fkey",
+          "tableFrom": "mauquf_alaih_distributions",
+          "tableTo": "fund_withdrawal_requests",
+          "columnsFrom": ["withdrawal_request_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.metode_infaq_master": {
+      "name": "metode_infaq_master",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "sort_order": {
+          "name": "sort_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.mustahiq_profiles": {
+      "name": "mustahiq_profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nama_mustahiq": {
+          "name": "nama_mustahiq",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nik": {
+          "name": "nik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kategori_asnaf": {
+          "name": "kategori_asnaf",
+          "type": "Asnaf",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alamat": {
+          "name": "alamat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "no_telepon": {
+          "name": "no_telepon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_verifikasi": {
+          "name": "status_verifikasi",
+          "type": "VerificationStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "admin_notes": {
+          "name": "admin_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.nadzir_documents": {
+      "name": "nadzir_documents",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nadzir_profile_id": {
+          "name": "nadzir_profile_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipe_dokumen": {
+          "name": "tipe_dokumen",
+          "type": "NadzirDocumentType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "file_url": {
+          "name": "file_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "file_deleted_at": {
+          "name": "file_deleted_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ocr_extracted_nik": {
+          "name": "ocr_extracted_nik",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ocr_extracted_nama": {
+          "name": "ocr_extracted_nama",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ocr_confidence_score": {
+          "name": "ocr_confidence_score",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_manually": {
+          "name": "reviewed_manually",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "nadzir_documents_nadzir_profile_id_fkey": {
+          "name": "nadzir_documents_nadzir_profile_id_fkey",
+          "tableFrom": "nadzir_documents",
+          "tableTo": "nadzir_profiles",
+          "columnsFrom": ["nadzir_profile_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.nadzir_profiles": {
+      "name": "nadzir_profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kategori": {
+          "name": "kategori",
+          "type": "NadzirKategori",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nama_lembaga": {
+          "name": "nama_lembaga",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_rekening_bank": {
+          "name": "nomor_rekening_bank",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_bank": {
+          "name": "nama_bank",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_registrasi_bwi": {
+          "name": "nomor_registrasi_bwi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_verifikasi": {
+          "name": "status_verifikasi",
+          "type": "VerificationStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "verified_by_id": {
+          "name": "verified_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verified_at": {
+          "name": "verified_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "nadzir_profiles_user_id_key": {
+          "name": "nadzir_profiles_user_id_key",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "nadzir_profiles_user_id_fkey": {
+          "name": "nadzir_profiles_user_id_fkey",
+          "tableFrom": "nadzir_profiles",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "nadzir_profiles_verified_by_id_fkey": {
+          "name": "nadzir_profiles_verified_by_id_fkey",
+          "tableFrom": "nadzir_profiles",
+          "tableTo": "users",
+          "columnsFrom": ["verified_by_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.notifications": {
+      "name": "notifications",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "body": {
+          "name": "body",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_read": {
+          "name": "is_read",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "related_entity_id": {
+          "name": "related_entity_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "notifications_user_id_fkey": {
+          "name": "notifications_user_id_fkey",
+          "tableFrom": "notifications",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.order_sequences": {
+      "name": "order_sequences",
+      "schema": "",
+      "columns": {
+        "scope_key": {
+          "name": "scope_key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "current_sequence": {
+          "name": "current_sequence",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "order_sequences_current_sequence_range": {
+          "name": "order_sequences_current_sequence_range",
+          "value": "\"order_sequences\".\"current_sequence\" >= 1 AND \"order_sequences\".\"current_sequence\" <= 9999"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.password_reset_otps": {
+      "name": "password_reset_otps",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "otp_hash": {
+          "name": "otp_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "consumed_at": {
+          "name": "consumed_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "password_reset_otps_email_created_idx": {
+          "name": "password_reset_otps_email_created_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last",
+              "opclass": "timestamp_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "password_reset_otps_user_id_fkey": {
+          "name": "password_reset_otps_user_id_fkey",
+          "tableFrom": "password_reset_otps",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.permohonan_penyaluran_institusional": {
+      "name": "permohonan_penyaluran_institusional",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nama_pemohon": {
+          "name": "nama_pemohon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nama_lembaga": {
+          "name": "nama_lembaga",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alamat_pemohon": {
+          "name": "alamat_pemohon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_surat_permohonan": {
+          "name": "nomor_surat_permohonan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kontak": {
+          "name": "kontak",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "penanggung_jawab": {
+          "name": "penanggung_jawab",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_rekening_pemohon": {
+          "name": "nomor_rekening_pemohon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_bank": {
+          "name": "nama_bank",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "PermohonanStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'DIAJUKAN'"
+        },
+        "admin_notes": {
+          "name": "admin_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alokasi_daging_disetujui_kg": {
+          "name": "alokasi_daging_disetujui_kg",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "approved_by_admin_id": {
+          "name": "approved_by_admin_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "permohonan_penyaluran_institusional_approved_by_admin_id_fkey": {
+          "name": "permohonan_penyaluran_institusional_approved_by_admin_id_fkey",
+          "tableFrom": "permohonan_penyaluran_institusional",
+          "tableTo": "users",
+          "columnsFrom": ["approved_by_admin_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.petugas_lapangan_profiles": {
+      "name": "petugas_lapangan_profiles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wilayah_tugas": {
+          "name": "wilayah_tugas",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "no_hp": {
+          "name": "no_hp",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "petugas_lapangan_profiles_user_id_key": {
+          "name": "petugas_lapangan_profiles_user_id_key",
+          "columns": [
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "petugas_lapangan_profiles_user_id_fkey": {
+          "name": "petugas_lapangan_profiles_user_id_fkey",
+          "tableFrom": "petugas_lapangan_profiles",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.program_progress_reports": {
+      "name": "program_progress_reports",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "persentase_fisik": {
+          "name": "persentase_fisik",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deskripsi": {
+          "name": "deskripsi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kuitansi_urls": {
+          "name": "kuitansi_urls",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by_id": {
+          "name": "created_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "program_progress_reports_created_by_id_fkey": {
+          "name": "program_progress_reports_created_by_id_fkey",
+          "tableFrom": "program_progress_reports",
+          "tableTo": "users",
+          "columnsFrom": ["created_by_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "program_progress_reports_waqf_program_id_fkey": {
+          "name": "program_progress_reports_waqf_program_id_fkey",
+          "tableFrom": "program_progress_reports",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.program_receipt_attachments": {
+      "name": "program_receipt_attachments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "progress_report_id": {
+          "name": "progress_report_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "object_key": {
+          "name": "object_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "file_name": {
+          "name": "file_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vendor_name": {
+          "name": "vendor_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "file_size": {
+          "name": "file_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nominal": {
+          "name": "nominal",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_photo_evidence": {
+          "name": "is_photo_evidence",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "uploaded_by_id": {
+          "name": "uploaded_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "program_receipt_attachments_object_key_key": {
+          "name": "program_receipt_attachments_object_key_key",
+          "columns": [
+            {
+              "expression": "object_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "program_receipt_attachments_program_idx": {
+          "name": "program_receipt_attachments_program_idx",
+          "columns": [
+            {
+              "expression": "waqf_program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "timestamp_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "program_receipt_attachments_waqf_program_id_fkey": {
+          "name": "program_receipt_attachments_waqf_program_id_fkey",
+          "tableFrom": "program_receipt_attachments",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "program_receipt_attachments_progress_report_id_fkey": {
+          "name": "program_receipt_attachments_progress_report_id_fkey",
+          "tableFrom": "program_receipt_attachments",
+          "tableTo": "program_progress_reports",
+          "columnsFrom": ["progress_report_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "program_receipt_attachments_uploaded_by_id_fkey": {
+          "name": "program_receipt_attachments_uploaded_by_id_fkey",
+          "tableFrom": "program_receipt_attachments",
+          "tableTo": "users",
+          "columnsFrom": ["uploaded_by_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "program_receipt_attachments_mime_type_check": {
+          "name": "program_receipt_attachments_mime_type_check",
+          "value": "\"program_receipt_attachments\".\"mime_type\" IN ('image/jpeg', 'image/png', 'image/webp', 'application/pdf')"
+        },
+        "program_receipt_attachments_file_size_check": {
+          "name": "program_receipt_attachments_file_size_check",
+          "value": "\"program_receipt_attachments\".\"file_size\" > 0 AND \"program_receipt_attachments\".\"file_size\" <= 5242880"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.quiz_attempts": {
+      "name": "quiz_attempts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "quiz_id": {
+          "name": "quiz_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "skor": {
+          "name": "skor",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "quiz_attempts_quiz_id_fkey": {
+          "name": "quiz_attempts_quiz_id_fkey",
+          "tableFrom": "quiz_attempts",
+          "tableTo": "quizzes",
+          "columnsFrom": ["quiz_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "quiz_attempts_user_id_fkey": {
+          "name": "quiz_attempts_user_id_fkey",
+          "tableFrom": "quiz_attempts",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.quiz_questions": {
+      "name": "quiz_questions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "quiz_id": {
+          "name": "quiz_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pertanyaan": {
+          "name": "pertanyaan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opsi_jawaban": {
+          "name": "opsi_jawaban",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jawaban_benar": {
+          "name": "jawaban_benar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "quiz_questions_quiz_id_fkey": {
+          "name": "quiz_questions_quiz_id_fkey",
+          "tableFrom": "quiz_questions",
+          "tableTo": "quizzes",
+          "columnsFrom": ["quiz_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.quizzes": {
+      "name": "quizzes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "education_content_id": {
+          "name": "education_content_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "judul": {
+          "name": "judul",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "quizzes_education_content_id_fkey": {
+          "name": "quizzes_education_content_id_fkey",
+          "tableFrom": "quizzes",
+          "tableTo": "education_contents",
+          "columnsFrom": ["education_content_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.qurban_animal_slots": {
+      "name": "qurban_animal_slots",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "hewan_batch_id": {
+          "name": "hewan_batch_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nomor_slot": {
+          "name": "nomor_slot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qurban_order_id": {
+          "name": "qurban_order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "SlotStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'TERSEDIA'"
+        }
+      },
+      "indexes": {
+        "qurban_animal_slots_hewan_batch_id_nomor_slot_key": {
+          "name": "qurban_animal_slots_hewan_batch_id_nomor_slot_key",
+          "columns": [
+            {
+              "expression": "hewan_batch_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "int4_ops"
+            },
+            {
+              "expression": "nomor_slot",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "int4_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "qurban_animal_slots_hewan_batch_id_fkey": {
+          "name": "qurban_animal_slots_hewan_batch_id_fkey",
+          "tableFrom": "qurban_animal_slots",
+          "tableTo": "hewan_batches",
+          "columnsFrom": ["hewan_batch_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "qurban_animal_slots_qurban_order_id_fkey": {
+          "name": "qurban_animal_slots_qurban_order_id_fkey",
+          "tableFrom": "qurban_animal_slots",
+          "tableTo": "qurban_orders",
+          "columnsFrom": ["qurban_order_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.qurban_distribution_allocations": {
+      "name": "qurban_distribution_allocations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "permohonan_id": {
+          "name": "permohonan_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qurban_order_id": {
+          "name": "qurban_order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hewan_batch_id": {
+          "name": "hewan_batch_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jumlah_bagian": {
+          "name": "jumlah_bagian",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tanggal_salur": {
+          "name": "tanggal_salur",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bukti_foto_url": {
+          "name": "bukti_foto_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "qurban_distribution_allocations_hewan_batch_id_fkey": {
+          "name": "qurban_distribution_allocations_hewan_batch_id_fkey",
+          "tableFrom": "qurban_distribution_allocations",
+          "tableTo": "hewan_batches",
+          "columnsFrom": ["hewan_batch_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "qurban_distribution_allocations_permohonan_id_fkey": {
+          "name": "qurban_distribution_allocations_permohonan_id_fkey",
+          "tableFrom": "qurban_distribution_allocations",
+          "tableTo": "permohonan_penyaluran_institusional",
+          "columnsFrom": ["permohonan_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "qurban_distribution_allocations_qurban_order_id_fkey": {
+          "name": "qurban_distribution_allocations_qurban_order_id_fkey",
+          "tableFrom": "qurban_distribution_allocations",
+          "tableTo": "qurban_orders",
+          "columnsFrom": ["qurban_order_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.qurban_distribution_reports": {
+      "name": "qurban_distribution_reports",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "qurban_order_id": {
+          "name": "qurban_order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bukti_foto_url": {
+          "name": "bukti_foto_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lokasi_penyaluran": {
+          "name": "lokasi_penyaluran",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lokasi_lat": {
+          "name": "lokasi_lat",
+          "type": "numeric(10, 6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lokasi_lng": {
+          "name": "lokasi_lng",
+          "type": "numeric(10, 6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jumlah_penerima": {
+          "name": "jumlah_penerima",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "qurban_distribution_reports_qurban_order_id_fkey": {
+          "name": "qurban_distribution_reports_qurban_order_id_fkey",
+          "tableFrom": "qurban_distribution_reports",
+          "tableTo": "qurban_orders",
+          "columnsFrom": ["qurban_order_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.qurban_orders": {
+      "name": "qurban_orders",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "wakif_id": {
+          "name": "wakif_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_pengqurban": {
+          "name": "nama_pengqurban",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telepon_pengqurban": {
+          "name": "telepon_pengqurban",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alamat_pengqurban": {
+          "name": "alamat_pengqurban",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jenis_hewan": {
+          "name": "jenis_hewan",
+          "type": "HewanType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipe_kepemilikan": {
+          "name": "tipe_kepemilikan",
+          "type": "Kepemilikan",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "opsi_pesan": {
+          "name": "opsi_pesan",
+          "type": "OpsiPesan",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PASRAH'"
+        },
+        "metode_pembayaran": {
+          "name": "metode_pembayaran",
+          "type": "MetodeBayar",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status_pembayaran": {
+          "name": "status_pembayaran",
+          "type": "QurbanPaymentStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'BELUM_BAYAR'"
+        },
+        "total_harga": {
+          "name": "total_harga",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nominal_dibayar": {
+          "name": "nominal_dibayar",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "sisa_tagihan": {
+          "name": "sisa_tagihan",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "entered_by_petugas_id": {
+          "name": "entered_by_petugas_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "akad_wakalah_text": {
+          "name": "akad_wakalah_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "akad_wakalah_accepted_at": {
+          "name": "akad_wakalah_accepted_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_shohibul": {
+          "name": "nama_shohibul",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_shohibul_list": {
+          "name": "nama_shohibul_list",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "laporan_terkirim_at": {
+          "name": "laporan_terkirim_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "qurban_orders_transaction_id_key": {
+          "name": "qurban_orders_transaction_id_key",
+          "columns": [
+            {
+              "expression": "transaction_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "qurban_orders_entered_by_petugas_id_fkey": {
+          "name": "qurban_orders_entered_by_petugas_id_fkey",
+          "tableFrom": "qurban_orders",
+          "tableTo": "petugas_lapangan_profiles",
+          "columnsFrom": ["entered_by_petugas_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "qurban_orders_transaction_id_fkey": {
+          "name": "qurban_orders_transaction_id_fkey",
+          "tableFrom": "qurban_orders",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "qurban_orders_wakif_id_fkey": {
+          "name": "qurban_orders_wakif_id_fkey",
+          "tableFrom": "qurban_orders",
+          "tableTo": "users",
+          "columnsFrom": ["wakif_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.refresh_tokens": {
+      "name": "refresh_tokens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revoked_at": {
+          "name": "revoked_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "refresh_tokens_token_hash_key": {
+          "name": "refresh_tokens_token_hash_key",
+          "columns": [
+            {
+              "expression": "token_hash",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "refresh_tokens_user_id_fkey": {
+          "name": "refresh_tokens_user_id_fkey",
+          "tableFrom": "refresh_tokens",
+          "tableTo": "users",
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.role_permissions": {
+      "name": "role_permissions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "feature_key": {
+          "name": "feature_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_enabled": {
+          "name": "is_enabled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "role_permissions_role_feature_key_key": {
+          "name": "role_permissions_role_feature_key_key",
+          "columns": [
+            {
+              "expression": "role",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "feature_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "role_permissions_role_check": {
+          "name": "role_permissions_role_check",
+          "value": "\"role_permissions\".\"role\" IN ('ADMIN', 'NADZIR', 'BENDAHARA', 'PETUGAS_LAPANGAN', 'WAKIF')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.setoran_petugas_lapangan": {
+      "name": "setoran_petugas_lapangan",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "petugas_id": {
+          "name": "petugas_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nomor_urut": {
+          "name": "nomor_urut",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tanggal": {
+          "name": "tanggal",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jumlah_setor": {
+          "name": "jumlah_setor",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "keterangan": {
+          "name": "keterangan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verified_by_admin_id": {
+          "name": "verified_by_admin_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verified_at": {
+          "name": "verified_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "setoran_petugas_lapangan_petugas_id_fkey": {
+          "name": "setoran_petugas_lapangan_petugas_id_fkey",
+          "tableFrom": "setoran_petugas_lapangan",
+          "tableTo": "petugas_lapangan_profiles",
+          "columnsFrom": ["petugas_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "setoran_petugas_lapangan_verified_by_admin_id_fkey": {
+          "name": "setoran_petugas_lapangan_verified_by_admin_id_fkey",
+          "tableFrom": "setoran_petugas_lapangan",
+          "tableTo": "users",
+          "columnsFrom": ["verified_by_admin_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.setoran_qurban_order_links": {
+      "name": "setoran_qurban_order_links",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "setoran_id": {
+          "name": "setoran_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "qurban_order_id": {
+          "name": "qurban_order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "setoran_qurban_order_links_setoran_id_qurban_order_id_key": {
+          "name": "setoran_qurban_order_links_setoran_id_qurban_order_id_key",
+          "columns": [
+            {
+              "expression": "setoran_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "qurban_order_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "setoran_qurban_order_links_qurban_order_id_fkey": {
+          "name": "setoran_qurban_order_links_qurban_order_id_fkey",
+          "tableFrom": "setoran_qurban_order_links",
+          "tableTo": "qurban_orders",
+          "columnsFrom": ["qurban_order_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "setoran_qurban_order_links_setoran_id_fkey": {
+          "name": "setoran_qurban_order_links_setoran_id_fkey",
+          "tableFrom": "setoran_qurban_order_links",
+          "tableTo": "setoran_petugas_lapangan",
+          "columnsFrom": ["setoran_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.transactions": {
+      "name": "transactions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "wakif_id": {
+          "name": "wakif_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jenis_transaksi": {
+          "name": "jenis_transaksi",
+          "type": "TransactionType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payment_method": {
+          "name": "payment_method",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_gateway_ref": {
+          "name": "payment_gateway_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status_pembayaran": {
+          "name": "status_pembayaran",
+          "type": "TransactionPaymentStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "disbursement_destination": {
+          "name": "disbursement_destination",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "payment_instructions": {
+          "name": "payment_instructions",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_url": {
+          "name": "payment_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment_expires_at": {
+          "name": "payment_expires_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "transactions_payment_gateway_ref_key": {
+          "name": "transactions_payment_gateway_ref_key",
+          "columns": [
+            {
+              "expression": "payment_gateway_ref",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "transactions_status_created_at_idx": {
+          "name": "transactions_status_created_at_idx",
+          "columns": [
+            {
+              "expression": "status_pembayaran",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "enum_ops"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "timestamp_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "transactions_wakif_id_idx": {
+          "name": "transactions_wakif_id_idx",
+          "columns": [
+            {
+              "expression": "wakif_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "transactions_wakif_id_fkey": {
+          "name": "transactions_wakif_id_fkey",
+          "tableFrom": "transactions",
+          "tableTo": "users",
+          "columnsFrom": ["wakif_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password_hash": {
+          "name": "password_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "Role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'WAKIF'"
+        },
+        "oauth_provider": {
+          "name": "oauth_provider",
+          "type": "OAuthProvider",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "oauth_id": {
+          "name": "oauth_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "birth_date": {
+          "name": "birth_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preferences": {
+          "name": "preferences",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "institution": {
+          "name": "institution",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "users_email_key": {
+          "name": "users_email_key",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_oauth_provider_oauth_id_key": {
+          "name": "users_oauth_provider_oauth_id_key",
+          "columns": [
+            {
+              "expression": "oauth_provider",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            },
+            {
+              "expression": "oauth_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "enum_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "users_phone_key": {
+          "name": "users_phone_key",
+          "columns": [
+            {
+              "expression": "phone",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.waqf_orders": {
+      "name": "waqf_orders",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nomor_kwitansi": {
+          "name": "nomor_kwitansi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wakif_id": {
+          "name": "wakif_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_wakif": {
+          "name": "nama_wakif",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "no_telepon": {
+          "name": "no_telepon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alamat": {
+          "name": "alamat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atas_nama_wakif": {
+          "name": "atas_nama_wakif",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_anonymous": {
+          "name": "is_anonymous",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "bentuk_wakaf": {
+          "name": "bentuk_wakaf",
+          "type": "BentukWakaf",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nominal": {
+          "name": "nominal",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_barang": {
+          "name": "nama_barang",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jumlah_satuan": {
+          "name": "jumlah_satuan",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nilai_taksiran_rupiah": {
+          "name": "nilai_taksiran_rupiah",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metode_pembayaran": {
+          "name": "metode_pembayaran",
+          "type": "MetodeBayar",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "WaqfOrderStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'MENUNGGU_VERIFIKASI'"
+        },
+        "entered_by_amil_id": {
+          "name": "entered_by_amil_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_ikrar_wakaf": {
+          "name": "nomor_ikrar_wakaf",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dokumen_aiw_url": {
+          "name": "dokumen_aiw_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "waqf_orders_nomor_kwitansi_key": {
+          "name": "waqf_orders_nomor_kwitansi_key",
+          "columns": [
+            {
+              "expression": "nomor_kwitansi",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "waqf_orders_transaction_id_key": {
+          "name": "waqf_orders_transaction_id_key",
+          "columns": [
+            {
+              "expression": "transaction_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "waqf_orders_waqf_program_id_idx": {
+          "name": "waqf_orders_waqf_program_id_idx",
+          "columns": [
+            {
+              "expression": "waqf_program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "waqf_orders_entered_by_amil_id_fkey": {
+          "name": "waqf_orders_entered_by_amil_id_fkey",
+          "tableFrom": "waqf_orders",
+          "tableTo": "users",
+          "columnsFrom": ["entered_by_amil_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "waqf_orders_transaction_id_fkey": {
+          "name": "waqf_orders_transaction_id_fkey",
+          "tableFrom": "waqf_orders",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "waqf_orders_wakif_id_fkey": {
+          "name": "waqf_orders_wakif_id_fkey",
+          "tableFrom": "waqf_orders",
+          "tableTo": "users",
+          "columnsFrom": ["wakif_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "waqf_orders_waqf_program_id_fkey": {
+          "name": "waqf_orders_waqf_program_id_fkey",
+          "tableFrom": "waqf_orders",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.waqf_principal_ledgers": {
+      "name": "waqf_principal_ledgers",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pokok_dana_terkumpul": {
+          "name": "pokok_dana_terkumpul",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "total_hasil_available": {
+          "name": "total_hasil_available",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "hasil_investasi_tersalurkan": {
+          "name": "hasil_investasi_tersalurkan",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "waqf_principal_ledgers_waqf_program_id_key": {
+          "name": "waqf_principal_ledgers_waqf_program_id_key",
+          "columns": [
+            {
+              "expression": "waqf_program_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "waqf_principal_ledgers_waqf_program_id_fkey": {
+          "name": "waqf_principal_ledgers_waqf_program_id_fkey",
+          "tableFrom": "waqf_principal_ledgers",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.waqf_programs": {
+      "name": "waqf_programs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nadzir_profile_id": {
+          "name": "nadzir_profile_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kode_program": {
+          "name": "kode_program",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "judul": {
+          "name": "judul",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kategori": {
+          "name": "kategori",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "deskripsi": {
+          "name": "deskripsi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "target_dana": {
+          "name": "target_dana",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "durasi_hari": {
+          "name": "durasi_hari",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "banner_url": {
+          "name": "banner_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jenis_wakaf": {
+          "name": "jenis_wakaf",
+          "type": "WaqfType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "WaqfStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'DRAFT'"
+        },
+        "rab_document_url": {
+          "name": "rab_document_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dokumen_legalitas_url": {
+          "name": "dokumen_legalitas_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "provinsi": {
+          "name": "provinsi",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kabupaten_kota": {
+          "name": "kabupaten_kota",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kecamatan": {
+          "name": "kecamatan",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kelurahan_desa": {
+          "name": "kelurahan_desa",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kode_wilayah": {
+          "name": "kode_wilayah",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_bank": {
+          "name": "nama_bank",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_rekening_bank": {
+          "name": "nomor_rekening_bank",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atas_nama_rekening": {
+          "name": "atas_nama_rekening",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verification_status": {
+          "name": "verification_status",
+          "type": "VerificationStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'PENDING'"
+        },
+        "admin_notes": {
+          "name": "admin_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verified_by_id": {
+          "name": "verified_by_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "verified_at": {
+          "name": "verified_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "waqf_programs_kode_program_key": {
+          "name": "waqf_programs_kode_program_key",
+          "columns": [
+            {
+              "expression": "kode_program",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "waqf_programs_nadzir_profile_id_fkey": {
+          "name": "waqf_programs_nadzir_profile_id_fkey",
+          "tableFrom": "waqf_programs",
+          "tableTo": "nadzir_profiles",
+          "columnsFrom": ["nadzir_profile_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.waqf_yield_entries": {
+      "name": "waqf_yield_entries",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "waqf_program_id": {
+          "name": "waqf_program_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_description": {
+          "name": "source_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recorded_by_admin_id": {
+          "name": "recorded_by_admin_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recorded_at": {
+          "name": "recorded_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "waqf_yield_entries_waqf_program_id_fkey": {
+          "name": "waqf_yield_entries_waqf_program_id_fkey",
+          "tableFrom": "waqf_yield_entries",
+          "tableTo": "waqf_programs",
+          "columnsFrom": ["waqf_program_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.wilayah": {
+      "name": "wilayah",
+      "schema": "",
+      "columns": {
+        "kode": {
+          "name": "kode",
+          "type": "varchar(13)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nama": {
+          "name": "nama",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "wilayah_nama_idx": {
+          "name": "wilayah_nama_idx",
+          "columns": [
+            {
+              "expression": "nama",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zakat_calculations": {
+      "name": "zakat_calculations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "wakif_id": {
+          "name": "wakif_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jenis_zakat": {
+          "name": "jenis_zakat",
+          "type": "ZakatType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "input_snapshot": {
+          "name": "input_snapshot",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nisab_digunakan": {
+          "name": "nisab_digunakan",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hasil_kewajiban": {
+          "name": "hasil_kewajiban",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "zakat_order_id": {
+          "name": "zakat_order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "zakat_calculations_wakif_id_fkey": {
+          "name": "zakat_calculations_wakif_id_fkey",
+          "tableFrom": "zakat_calculations",
+          "tableTo": "users",
+          "columnsFrom": ["wakif_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "zakat_calculations_zakat_order_id_fkey": {
+          "name": "zakat_calculations_zakat_order_id_fkey",
+          "tableFrom": "zakat_calculations",
+          "tableTo": "zakat_orders",
+          "columnsFrom": ["zakat_order_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zakat_distributions": {
+      "name": "zakat_distributions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "mustahiq_id": {
+          "name": "mustahiq_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jenis_zakat": {
+          "name": "jenis_zakat",
+          "type": "ZakatType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nominal": {
+          "name": "nominal",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "berat_beras_kg": {
+          "name": "berat_beras_kg",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bukti_penerimaan_url": {
+          "name": "bukti_penerimaan_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lokasi_lat": {
+          "name": "lokasi_lat",
+          "type": "numeric(10, 6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lokasi_lng": {
+          "name": "lokasi_lng",
+          "type": "numeric(10, 6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jumlah_penerima": {
+          "name": "jumlah_penerima",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "ZakatDistributionStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'TERSALURKAN'"
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "distributed_by_amil_id": {
+          "name": "distributed_by_amil_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "zakat_distributions_distributed_by_amil_id_fkey": {
+          "name": "zakat_distributions_distributed_by_amil_id_fkey",
+          "tableFrom": "zakat_distributions",
+          "tableTo": "users",
+          "columnsFrom": ["distributed_by_amil_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "zakat_distributions_mustahiq_id_fkey": {
+          "name": "zakat_distributions_mustahiq_id_fkey",
+          "tableFrom": "zakat_distributions",
+          "tableTo": "mustahiq_profiles",
+          "columnsFrom": ["mustahiq_id"],
+          "columnsTo": ["id"],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zakat_fitrah_config": {
+      "name": "zakat_fitrah_config",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "jenis_beras": {
+          "name": "jenis_beras",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "konversi_harga_per_jiwa": {
+          "name": "konversi_harga_per_jiwa",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "referensi_sk": {
+          "name": "referensi_sk",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tahun_berlaku": {
+          "name": "tahun_berlaku",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zakat_gold_price_history": {
+      "name": "zakat_gold_price_history",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "price_per_gram": {
+          "name": "price_per_gram",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source": {
+          "name": "source",
+          "type": "GoldPriceSource",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fetched_at": {
+          "name": "fetched_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zakat_orders": {
+      "name": "zakat_orders",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tahun_hijriah": {
+          "name": "tahun_hijriah",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nomor_kwitansi": {
+          "name": "nomor_kwitansi",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "muzakki_id": {
+          "name": "muzakki_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nama_muzakki": {
+          "name": "nama_muzakki",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nama_dizakatkan": {
+          "name": "nama_dizakatkan",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "no_telepon": {
+          "name": "no_telepon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alamat": {
+          "name": "alamat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_anonymous": {
+          "name": "is_anonymous",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "jenis_zakat": {
+          "name": "jenis_zakat",
+          "type": "ZakatType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metode_pembayaran": {
+          "name": "metode_pembayaran",
+          "type": "ZakatPaymentMethod",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nominal": {
+          "name": "nominal",
+          "type": "numeric(18, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "berat_beras_kg": {
+          "name": "berat_beras_kg",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jumlah_jiwa": {
+          "name": "jumlah_jiwa",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bukti_transfer_url": {
+          "name": "bukti_transfer_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "ZakatOrderStatus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'MENUNGGU_VERIFIKASI'"
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "entered_by_amil_id": {
+          "name": "entered_by_amil_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transaction_id": {
+          "name": "transaction_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "zakat_orders_nomor_kwitansi_key": {
+          "name": "zakat_orders_nomor_kwitansi_key",
+          "columns": [
+            {
+              "expression": "nomor_kwitansi",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "zakat_orders_transaction_id_key": {
+          "name": "zakat_orders_transaction_id_key",
+          "columns": [
+            {
+              "expression": "transaction_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "text_ops"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "zakat_orders_entered_by_amil_id_fkey": {
+          "name": "zakat_orders_entered_by_amil_id_fkey",
+          "tableFrom": "zakat_orders",
+          "tableTo": "users",
+          "columnsFrom": ["entered_by_amil_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "zakat_orders_muzakki_id_fkey": {
+          "name": "zakat_orders_muzakki_id_fkey",
+          "tableFrom": "zakat_orders",
+          "tableTo": "users",
+          "columnsFrom": ["muzakki_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "zakat_orders_transaction_id_fkey": {
+          "name": "zakat_orders_transaction_id_fkey",
+          "tableFrom": "zakat_orders",
+          "tableTo": "transactions",
+          "columnsFrom": ["transaction_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.Asnaf": {
+      "name": "Asnaf",
+      "schema": "public",
+      "values": [
+        "FAKIR",
+        "MISKIN",
+        "AMIL",
+        "MUALLAF",
+        "RIQAB",
+        "GHARIMIN",
+        "FISABILILLAH",
+        "IBNU_SABIL"
+      ]
+    },
+    "public.BentukWakaf": {
+      "name": "BentukWakaf",
+      "schema": "public",
+      "values": ["UANG", "BARANG"]
+    },
+    "public.ChatbotDomain": {
+      "name": "ChatbotDomain",
+      "schema": "public",
+      "values": ["WAKAF_PRODUKTIF"]
+    },
+    "public.ChatbotRole": {
+      "name": "ChatbotRole",
+      "schema": "public",
+      "values": ["USER", "ASSISTANT"]
+    },
+    "public.EducationType": {
+      "name": "EducationType",
+      "schema": "public",
+      "values": ["ARTIKEL", "VIDEO"]
+    },
+    "public.GoldPriceSource": {
+      "name": "GoldPriceSource",
+      "schema": "public",
+      "values": ["LIVE_API", "MANUAL_FALLBACK"]
+    },
+    "public.HewanBatchStatus": {
+      "name": "HewanBatchStatus",
+      "schema": "public",
+      "values": ["TERSEDIA", "PENUH", "SELESAI"]
+    },
+    "public.HewanType": {
+      "name": "HewanType",
+      "schema": "public",
+      "values": ["SAPI", "KAMBING"]
+    },
+    "public.Kepemilikan": {
+      "name": "Kepemilikan",
+      "schema": "public",
+      "values": ["INDIVIDU", "KOLEKTIF"]
+    },
+    "public.MetodeBayar": {
+      "name": "MetodeBayar",
+      "schema": "public",
+      "values": ["TUNAI", "TRANSFER", "QRIS", "VA"]
+    },
+    "public.NadzirDocumentType": {
+      "name": "NadzirDocumentType",
+      "schema": "public",
+      "values": ["KTP", "SERTIFIKAT_BWI"]
+    },
+    "public.NadzirKategori": {
+      "name": "NadzirKategori",
+      "schema": "public",
+      "values": ["PERSEORANGAN", "ORGANISASI", "BADAN_HUKUM"]
+    },
+    "public.OAuthProvider": {
+      "name": "OAuthProvider",
+      "schema": "public",
+      "values": ["GOOGLE", "FACEBOOK"]
+    },
+    "public.OpsiPesan": {
+      "name": "OpsiPesan",
+      "schema": "public",
+      "values": ["PASRAH", "AMBIL_SENDIRI"]
+    },
+    "public.PermohonanStatus": {
+      "name": "PermohonanStatus",
+      "schema": "public",
+      "values": ["DIAJUKAN", "DISETUJUI", "DITOLAK", "DISALURKAN"]
+    },
+    "public.QurbanPaymentStatus": {
+      "name": "QurbanPaymentStatus",
+      "schema": "public",
+      "values": ["BELUM_BAYAR", "DP", "LUNAS"]
+    },
+    "public.Role": {
+      "name": "Role",
+      "schema": "public",
+      "values": ["WAKIF", "NADZIR", "ADMIN", "PETUGAS_LAPANGAN", "BENDAHARA"]
+    },
+    "public.SlotStatus": {
+      "name": "SlotStatus",
+      "schema": "public",
+      "values": ["TERSEDIA", "TERISI", "TERJUAL", "DIBATALKAN"]
+    },
+    "public.TransactionPaymentStatus": {
+      "name": "TransactionPaymentStatus",
+      "schema": "public",
+      "values": ["PENDING", "DP", "LUNAS", "GAGAL"]
+    },
+    "public.TransactionType": {
+      "name": "TransactionType",
+      "schema": "public",
+      "values": ["WAKAF", "ZAKAT", "INFAQ", "QURBAN"]
+    },
+    "public.VerificationStatus": {
+      "name": "VerificationStatus",
+      "schema": "public",
+      "values": ["PENDING", "VERIFIED", "REJECTED"]
+    },
+    "public.WaqfOrderStatus": {
+      "name": "WaqfOrderStatus",
+      "schema": "public",
+      "values": ["MENUNGGU_VERIFIKASI", "TERVERIFIKASI", "DITOLAK"]
+    },
+    "public.WaqfStatus": {
+      "name": "WaqfStatus",
+      "schema": "public",
+      "values": ["DRAFT", "LIVE", "SELESAI"]
+    },
+    "public.WaqfType": {
+      "name": "WaqfType",
+      "schema": "public",
+      "values": ["HABIS_PAKAI", "PRODUKTIF_KEKAL"]
+    },
+    "public.WithdrawalStatus": {
+      "name": "WithdrawalStatus",
+      "schema": "public",
+      "values": ["PENDING", "APPROVED", "REJECTED", "DISBURSED"]
+    },
+    "public.ZakatDistributionStatus": {
+      "name": "ZakatDistributionStatus",
+      "schema": "public",
+      "values": ["TERSALURKAN", "DIBATALKAN"]
+    },
+    "public.ZakatOrderStatus": {
+      "name": "ZakatOrderStatus",
+      "schema": "public",
+      "values": ["MENUNGGU_VERIFIKASI", "TERVERIFIKASI", "DITOLAK"]
+    },
+    "public.ZakatPaymentMethod": {
+      "name": "ZakatPaymentMethod",
+      "schema": "public",
+      "values": ["TUNAI", "TRANSFER", "BERAS"]
+    },
+    "public.ZakatType": {
+      "name": "ZakatType",
+      "schema": "public",
+      "values": [
+        "FITRAH",
+        "MAAL_PENGHASILAN",
+        "FIDYAH",
+        "KAFARAT",
+        "EMAS",
+        "PERUSAHAAN",
+        "PERTANIAN"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

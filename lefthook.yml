@@ -1,0 +1,33 @@
+pre-commit:
+  jobs:
+    # Migrations only, so a commit that stages no SQL never pays for this job.
+    # Without the glob it ran on every commit — a node start plus a `git diff
+    # --cached` over the whole index, for a file list that was empty of
+    # migrations by construction. The second pattern keeps the guard alive if a
+    # migration is ever staged under a top-level `drizzle/` instead of
+    # `apps/web/drizzle/`; a glob that matches too little disables the guard
+    # silently, which is worse than running it too often.
+    - run: node scripts/guard-destructive-sql.mjs
+      glob:
+        - "**/drizzle/*.sql"
+        - "drizzle/*.sql"
+    # Staged files only. Formatting the whole repo on every commit rewrote files
+    # owned by other agents and left them dirty (Sprint 11 PLAN P4). Biome is
+    # called directly because `ultracite format` re-wraps each path in double
+    # quotes for a second shell, where `$` in route files like
+    # `certificates.$id.ts` or `rpc/$.ts` gets expanded on POSIX shells.
+    - run: bunx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      glob:
+        - "*.js"
+        - "*.jsx"
+        - "*.ts"
+        - "*.tsx"
+        - "*.json"
+        - "*.jsonc"
+        - "*.css"
+      stage_fixed: true
+    - run: bun run check-types
+      glob: "*.{ts,tsx}"
+    - run: cd apps/web && bun run lingui:compile
+      glob: "**/_locales/*.po"
+      stage_fixed: true

@@ -1,0 +1,36 @@
+{
+  "name": "my-better-t-app-2",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/wa-bot",
+    "packages/*"
+  ],
+  "scripts": {
+    "check": "biome check --write .",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:web": "turbo dev",
+    "db:studio": "turbo db:studio",
+    "db:generate": "turbo db:generate",
+    "db:migrate": "turbo db:migrate",
+    "db:start": "turbo db:start",
+    "db:watch": "turbo db:watch",
+    "db:stop": "turbo db:stop",
+    "db:down": "turbo db:down",
+    "clean": "turbo clean && rm -rf node_modules"
+  },
+  "dependencies": {
+    "jose": "^6.2.12",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.2",
+    "@types/bcryptjs": "^3.0.0",
+    "lefthook": "^1.12.3",
+    "turbo": "^2.5.4",
+    "ultracite": "5.1.2"
+  },
+  "packageManager": "bun@1.2.15"
+}

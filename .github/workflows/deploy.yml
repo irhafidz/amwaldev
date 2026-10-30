@@ -1,0 +1,95 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy-production:
+    name: deploy-production
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Deploy built-in-place images to VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.VPS_PORT || '22' }}
+          envs: GITHUB_REF_NAME,GITHUB_SHA
+          script: |
+            set -euo pipefail
+
+            APP_DIR="/var/www/amwal-bun"
+            BRANCH="${GITHUB_REF_NAME}"
+
+            if [[ ! -d "${APP_DIR}" ]]; then
+              echo "FATAL: deployment directory ${APP_DIR} missing" >&2
+              exit 1
+            fi
+
+            cd "${APP_DIR}"
+
+            if [[ ! -f ".env.production" ]]; then
+              echo "FATAL: .env.production missing" >&2
+              exit 1
+            fi
+
+            CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+            if [[ "${CURRENT_BRANCH}" != "${BRANCH}" ]]; then
+              echo "FATAL: expected branch ${BRANCH}, found ${CURRENT_BRANCH}" >&2
+              exit 1
+            fi
+
+            git fetch origin
+            git reset --hard "origin/${BRANCH}"
+
+            # Bersihkan Docker build cache & image lama sebelum build
+            # agar disk tidak habis di tengah proses COPY node_modules.
+            # Tanpa --volumes: volume wa_session (sesi WhatsApp/Baileys) bisa
+            # ikut terhapus bila container wa-bot sedang mati, dan itu berarti
+            # pairing QR ulang.
+            echo "=== Disk sebelum prune ==="
+            df -h /
+            docker system prune -af
+            echo "=== Disk setelah prune ==="
+            df -h /
+
+            # web & wa-bot dibuild in place dari Dockerfile (tanpa registry
+            # GHCR, tanpa container Caddy — routing/TLS di Traefik/Dokploy).
+            # `--build` wajib supaya perubahan source terangkat.
+            docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build wa-bot web
+
+            # 120s, bukan 30s: sejak entrypoint auto-migrate, kontainer
+            # menjalankan `bun run db:migrate` dulu sebelum server naik —
+            # dan `start_period` healthcheck di compose juga 60s. Jendela
+            # 30s lama akan menandai deploy gagal padahal migrasi cuma
+            # sedang berjalan.
+            HEALTHY=0
+            for _ in $(seq 1 120); do
+              STATUS="$(docker inspect -f '{{.State.Health.Status}}' amwal_web 2>/dev/null || true)"
+              if [[ "${STATUS}" == "healthy" ]]; then
+                HEALTHY=1
+                break
+              fi
+              sleep 1
+            done
+
+            if [[ "${HEALTHY}" -ne 1 ]]; then
+              docker compose --env-file .env.production -f docker-compose.prod.yml logs --tail 50
+              echo "FATAL: web healthcheck failed within 120 seconds" >&2
+              exit 1
+            fi
+
+            # Bersihkan build cache + dangling images agar disk tidak penuh setiap deploy
+            docker image prune -f
+            docker builder prune -f
