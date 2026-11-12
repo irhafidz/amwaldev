@@ -59,15 +59,9 @@ amwal-dev/
 - [Bun](https://bun.sh) `<version>`
 - PostgreSQL `<version>`
 
-### Installation
+### Database
 
-```bash
-git clone https://github.com/<org>/amwal-dev.git
-cd amwal-dev
-cp .env.example .env        # fill in database, payment, and storage settings
-bun install
-bun run db:migrate          # <adjust to the actual script name>
-bun run dev
+```ga ada ganti aja section ini dengan ttg Database misalnya
 ```
 
 ## Methodology
@@ -86,9 +80,9 @@ bun run dev
 
 <!-- TODO: add SEQ, SUS, and task completion time results per iteration -->
 
-| Cycle               | SEQ   | SUS   | Task completion time |
-|---------------------|-------|-------|----------------------|
-| User iteration 1    |       |       |                      |
+| Cycle               | SEQ   | SUS   | Task completion time | Date and Time UAT | User Demographic UAT |
+|---------------------|-------|-------|----------------------|-------------------| ---------------------|
+| User iteration 1    |       |       |                      |                   |
 | User iteration 2    |       |       |                      |
 | Admin iteration 1   |       |       |                      |
 | Admin iteration 2   |       |       |                      |
