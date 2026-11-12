@@ -1,15 +1,15 @@
 ---
-title: "<Paper title>"
-author: "<Author list> *corresponding author"
-date: "<dd/mm/yyyy>"
-conference: "<Venue>"
+title: "A Design Thinking Approach to Enhancing Usability and Transparency in Digital Islamic Philanthropy Platforms"
+author: "Irmasari Hafidz*, Hilman Mumtaz Sya’bani, Aldani Prasetyo, Qurrota Ainin Jayyidah Sutanto, Bara Ardiwinata, Naufal Zaky Nugraha, Muhammad Ade Dzakwan, Nur Aini Rakhmawati *corresponding author"
+date: "19 December 2026 "
+conference: "Submission for the Beyond Technology Summit on Informatics International Conference (BTS-I2C) 2026, 19 December, Universitas Muhammadiyah Jember, Indonesia"
 website: "https://amwal.id"
 ---
 
 ## Introduction #amwal-dev
-Amwal stands for *Aplikasi Waqaf Aman Legal*. It is an integrated ZISWAF (zakat, infaq, sadaqah, and waqf) and qurban management platform for donors and institutional administrators. It exists both as an interactive High-Fidelity (Hi-Fi) design and as a full-stack Progressive Web Application (PWA), live at [amwal.id](https://amwal.id). This repository accompanies the research paper **“<Paper title>”**.
+Amwal stands for *Aplikasi Waqaf Aman Legal*. It is a web-dev that supports an integrated ZISWAF (zakat, infaq, sadaqah, and waqf) and qurban management platform for donors and institutional administrators. It exists both as an interactive High-Fidelity (Hi-Fi) design and as a full-stack Progressive Web Application (PWA), live at [amwal.id](https://amwal.id). This repository accompanies the research paper **“A Design Thinking Approach to Enhancing Usability and Transparency in Digital Islamic Philanthropy Platforms”**.
 
-The platform was designed, implemented, and evaluated through an iterative Design Thinking methodology at the Manarul Ilmi Foundation (Yayasan Manarul Ilmi, YMI) and Masjid Manarul Ilmi, Institut Teknologi Sepuluh Nopember (ITS). The process ran two user-side iterations and two administrator-side iterations.
+The platform was designed, implemented, and evaluated through an iterative Design Thinking methodology at the Manarul Ilmi Foundation (Yayasan Manarul Ilmi, YMI) and Masjid Manarul Ilmi, Institut Teknologi Sepuluh Nopember (ITS) in the period of May 2026 up until now (on-going). The process ran two user-side iterations and two administrator-side iterations.
 
 ## Tech Stack
 
@@ -26,10 +26,10 @@ The platform was designed, implemented, and evaluated through an iterative Desig
 **Transactional integrity and fiqh compliance**
 - Non-diminishing principal ledger for cash waqf, so the waqf principal is never spent.
 - Pessimistic row-level locking for collective qurban slot allocation, preventing double booking of shared animals.
-- Idempotent payment webhooks, so repeated gateway callbacks never record a payment twice.
+- Idempotent (duplicate-safe) payment webhooks, so repeated gateway callbacks never record a payment twice (a payment is recorded exactly once even if the gateway sends the same notification several times).
 - SHA-256 hash-verified PDF waqf e-Certificates.
-- Live gold-price integration for zakat nisab calculation.
-- OCR-assisted nadzir verification.
+- Gold-price edit feature for zakat nisab calculation.
+- Document-assisted nadzir verification: a nadzir must attach an official certificate from Badan Wakaf Indonesia (BWI) showing that they are a registered nadzir.
 
 **Dual-perspective interface (Donor and Administrator)**
 - Cross-contract philanthropic services (zakat, infaq, sadaqah, waqf, qurban) in one platform.
