@@ -51,19 +51,6 @@ amwal-dev/
 ├── .env.example    # Template for environment variables
 └── README.md       # Project introduction
 ```
-
-## Getting Started
-
-### Prerequisites
-
-- [Bun](https://bun.sh) `<version>`
-- PostgreSQL `<version>`
-
-### Database
-
-```ga ada ganti aja section ini dengan ttg Database misalnya
-```
-
 ## Methodology
 
 1. Empathize, define, ideate, prototype, and test with donors and YMI administrators (Design Thinking).
