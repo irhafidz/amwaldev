@@ -82,6 +82,10 @@ The system is organised in three numbered tiers:
 
 ## Methodology
 
+![Design Thinking flow](figures/fig1_design_thinking_flow.png)
+
+*Fig. 1. The Design Thinking framework applied in the Amwal platform development (`figures/fig1_design_thinking_flow.png`).*
+
 The work combines two approaches in a hybrid, two-phase process:
 
 1. **Design Thinking** for problem exploration and interface design: empathize, define, ideate and prototype with donors and YMI administrators, producing the empathy map, affinity diagram, wireframes and the Hi-Fi prototype (Figma) (Figs. 1–5 and 7–8).
