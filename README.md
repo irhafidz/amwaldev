@@ -65,14 +65,12 @@ amwal-dev/
 
 ## Results
 
-<!-- TODO: add SEQ, SUS, and task completion time results per iteration -->
-
-| Cycle               | SEQ   | SUS   | Task completion time | Date and Time UAT | User Demographic UAT |
-|---------------------|-------|-------|----------------------|-------------------| ---------------------|
-| User iteration 1    |       |       |                      |                   |
-| User iteration 2    |       |       |                      |
-| Admin iteration 1   |       |       |                      |
-| Admin iteration 2   |       |       |                      |
+| Cycle | SEQ | SUS | Task completion time | Date and Time UAT | User Demographic UAT |
+|---|:---:|:---:|:---:|---|---|
+| User iteration 1 | 5.17 / 7.00 | 65.83 | 105.36 s (01:45) | 18 September 2026, 13:00–15:00 WIB | 3 Donors/Users (2 Female, 1 Male; aged 21–27; YMI Manager, Marketing, Program Coordinator) |
+| User iteration 2 | 5.69 / 7.00 | 65.00 | 63.06 s (01:03) | 9 October 2026, 13:00–15:00 WIB | 4 Donors/Users (2 Female, 2 Male; aged 21–27; Graphic Designer, Program Coordinator, Content Strategist, Marketing) |
+| Admin iteration 1 | 6.49 / 7.00 | 54.17 | 134.00 s (02:14) | 25 September 2026, 13:00–15:00 WIB | 4 Administrators/Staff (2 Female, 2 Male; aged 21–25; Graphic Designer, Program Coordinator, Marketing, Video Editor) |
+| Admin iteration 2 | 6.64 / 7.00 | 61.67 | 88.70 s (01:28) | 16 October 2026, 13:00–15:00 WIB | 6 Administrators/Staff (5 Female, 1 Male; aged 23–35; Graphic Designer, YMI Finance, Content Strategist, 2 Fundraisers, Video Editor) |
 
 ## Related Work
 
