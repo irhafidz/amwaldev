@@ -1,0 +1,5 @@
+respondent,tasks_recorded,tasks_success,tasks_not_success,task_success_pct,seq_mean,sus
+R1,17,17,0,100.0,6.47,77.5
+R2,17,13,4,76.5,5.94,65.0
+R3,17,14,3,82.4,5.93,65.0
+R4,18,18,0,100.0,4.71,65.0

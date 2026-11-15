@@ -1,0 +1,4 @@
+respondent,gender,age,occupation,sus,seq_T1,seq_T2,seq_T3,seq_T4,seq_T5,seq_T7,seq_T10,seq_mean_tested_tasks
+R1,male,21,Program Coordinator,50.0,5,6,5,,,,,5.33
+R2,female,27,Marketing,77.5,6,7,7,2,7,7,2,5.43
+R3,female,24,YMI Manager,70.0,3,3,6,3,6,5,,4.33

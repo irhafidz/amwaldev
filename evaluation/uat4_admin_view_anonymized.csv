@@ -1,0 +1,7 @@
+respondent,division_or_profession,age,tasks_recorded,tasks_success,tasks_not_success,task_success_pct,seq_mean,seq_rated_tasks,sus_raw,indicative_mean_task_duration_mmss
+R1,Video Editor,25,20,17,3,85.0,7.00,17,70.0,0:44
+R2,Graphic Designer (Media),23,20,17,3,85.0,6.88,17,57.5,0:57
+R3,Content Strategist,24,20,17,3,85.0,6.81,16,82.5,2:30 (11 timed tasks)
+R4,Fundraiser,24,20,20,0,100.0,6.65,20,70.0,0:53
+R5,Fundraiser,27,23,20,3,87.0,6.65,20,65.0,1:10
+R6,Finance (YMI),30-40 (band),20,19,1,95.0,6.32,19,45.0,1:15

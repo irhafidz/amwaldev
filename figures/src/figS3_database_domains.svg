@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 1556" width="3000" height="1556" font-family="'Times New Roman', Times, serif">
+<defs>
+<marker id="ah" viewBox="0 0 12 12" refX="10" refY="6" markerUnits="userSpaceOnUse" markerWidth="30" markerHeight="30" orient="auto-start-reverse"><path d="M0,0 L12,6 L0,12 z" fill="#0b0b0b"/></marker>
+</defs>
+<rect width="3000" height="1556" fill="#ffffff"/>
+<polyline points="685,591 750,591 750,147 815,147" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round" marker-end="url(#ah)"/>
+<polyline points="1125,554 1125,610" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round" marker-end="url(#ah)"/>
+<polyline points="1435,200 1565,200" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round" marker-end="url(#ah)"/>
+<polyline points="2250,159 2250,1000" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round"/>
+<polyline points="2315,159 2250,159" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round"/>
+<polyline points="2315,522 2250,522" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round"/>
+<polyline points="2315,1000 2250,1000" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round"/>
+<polyline points="2250,200 2185,200" fill="none" stroke="#0b0b0b" stroke-width="6" stroke-linejoin="round" marker-end="url(#ah)"/>
+<rect x="65" y="40" width="620" height="330" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M65,60 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e4ecf8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="375" y="92" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Identity &amp; Access</text>
+<text x="375" y="135.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">4 tables</text>
+<rect x="79" y="174" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="95" y="205" font-size="33" font-weight="700" fill="#0b0b0b">users</text>
+<text x="95" y="251" font-size="33" font-weight="600" fill="#0b0b0b">role_permissions</text>
+<text x="95" y="297" font-size="33" font-weight="600" fill="#0b0b0b">refresh_tokens</text>
+<text x="95" y="343" font-size="33" font-weight="600" fill="#0b0b0b">password_reset_otps</text>
+<rect x="65" y="426" width="620" height="330" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M65,446 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e4ecf8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="375" y="478" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Institutions &amp; Field Staff</text>
+<text x="375" y="521.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">4 tables</text>
+<text x="95" y="591" font-size="33" font-weight="600" fill="#0b0b0b">nadzir_profiles</text>
+<text x="95" y="637" font-size="33" font-weight="600" fill="#0b0b0b">nadzir_documents</text>
+<text x="95" y="683" font-size="33" font-weight="600" fill="#0b0b0b">petugas_lapangan_profiles</text>
+<text x="95" y="729" font-size="33" font-weight="600" fill="#0b0b0b">mustahiq_profiles</text>
+<rect x="65" y="812" width="620" height="422" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M65,832 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#eeeeee" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="375" y="864" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Master Data &amp; Reference</text>
+<text x="375" y="907.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">6 tables</text>
+<text x="95" y="977" font-size="33" font-weight="600" fill="#0b0b0b">akad_waqaf_master</text>
+<text x="95" y="1023" font-size="33" font-weight="600" fill="#0b0b0b">kategori_waqaf_master</text>
+<text x="95" y="1069" font-size="33" font-weight="600" fill="#0b0b0b">jenis_zakat_master</text>
+<text x="95" y="1115" font-size="33" font-weight="600" fill="#0b0b0b">jenis_infaq_master</text>
+<text x="95" y="1161" font-size="33" font-weight="600" fill="#0b0b0b">metode_infaq_master</text>
+<text x="95" y="1207" font-size="33" font-weight="600" fill="#0b0b0b">wilayah</text>
+<rect x="815" y="40" width="620" height="514" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M815,60 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e1f1e8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="1125" y="92" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Waqf</text>
+<text x="1125" y="135.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">8 tables</text>
+<rect x="829" y="174" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="845" y="205" font-size="33" font-weight="700" fill="#0b0b0b">waqf_programs</text>
+<rect x="829" y="220" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="845" y="251" font-size="33" font-weight="700" fill="#0b0b0b">waqf_principal_ledgers</text>
+<text x="845" y="297" font-size="33" font-weight="600" fill="#0b0b0b">waqf_yield_entries</text>
+<rect x="829" y="312" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="845" y="343" font-size="33" font-weight="700" fill="#0b0b0b">waqf_orders</text>
+<text x="845" y="389" font-size="33" font-weight="600" fill="#0b0b0b">fund_pools</text>
+<text x="845" y="435" font-size="33" font-weight="600" fill="#0b0b0b">fund_withdrawal_requests</text>
+<text x="845" y="481" font-size="33" font-weight="600" fill="#0b0b0b">mauquf_alaih_distributions</text>
+<text x="845" y="527" font-size="33" font-weight="600" fill="#0b0b0b">permohonan_penyaluran_institusional</text>
+<rect x="815" y="610" width="620" height="238" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M815,630 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e1f1e8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="1125" y="662" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Program Transparency</text>
+<text x="1125" y="705.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">2 tables</text>
+<text x="845" y="775" font-size="33" font-weight="600" fill="#0b0b0b">program_progress_reports</text>
+<text x="845" y="821" font-size="33" font-weight="600" fill="#0b0b0b">program_receipt_attachments</text>
+<rect x="815" y="904" width="620" height="422" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M815,924 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#eeeeee" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="1125" y="956" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Engagement &amp; Communication</text>
+<text x="1125" y="999.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">6 tables</text>
+<text x="845" y="1069" font-size="33" font-weight="600" fill="#0b0b0b">chatbot_conversations</text>
+<text x="845" y="1115" font-size="33" font-weight="600" fill="#0b0b0b">chatbot_messages</text>
+<text x="845" y="1161" font-size="33" font-weight="600" fill="#0b0b0b">notifications</text>
+<text x="845" y="1207" font-size="33" font-weight="600" fill="#0b0b0b">affiliate_codes</text>
+<text x="845" y="1253" font-size="33" font-weight="600" fill="#0b0b0b">affiliate_attributions</text>
+<text x="845" y="1299" font-size="33" font-weight="600" fill="#0b0b0b">affiliate_clicks</text>
+<rect x="1565" y="40" width="620" height="376" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M1565,60 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#fbf1d6" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="1875" y="92" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Payments &amp; Documents</text>
+<text x="1875" y="135.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">5 tables</text>
+<rect x="1579" y="174" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="1595" y="205" font-size="33" font-weight="700" fill="#0b0b0b">transactions</text>
+<text x="1595" y="251" font-size="33" font-weight="600" fill="#0b0b0b">order_sequences</text>
+<rect x="1579" y="266" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="1595" y="297" font-size="33" font-weight="700" fill="#0b0b0b">certificates</text>
+<text x="1595" y="343" font-size="33" font-weight="600" fill="#0b0b0b">akad_templates</text>
+<text x="1595" y="389" font-size="33" font-weight="600" fill="#0b0b0b">akad_acceptances</text>
+<rect x="1565" y="472" width="620" height="698" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M1565,492 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#f1e6f4" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="1875" y="524" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Education &amp; Gamification</text>
+<text x="1875" y="567.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">12 tables</text>
+<text x="1595" y="637" font-size="33" font-weight="600" fill="#0b0b0b">education_contents</text>
+<text x="1595" y="683" font-size="33" font-weight="600" fill="#0b0b0b">education_categories</text>
+<text x="1595" y="729" font-size="33" font-weight="600" fill="#0b0b0b">education_videos</text>
+<rect x="1579" y="744" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="1595" y="775" font-size="33" font-weight="700" fill="#0b0b0b">education_articles</text>
+<text x="1595" y="821" font-size="33" font-weight="600" fill="#0b0b0b">education_quiz_questions</text>
+<text x="1595" y="867" font-size="33" font-weight="600" fill="#0b0b0b">education_content_likes</text>
+<text x="1595" y="913" font-size="33" font-weight="600" fill="#0b0b0b">education_quiz_attempts</text>
+<text x="1595" y="959" font-size="33" font-weight="600" fill="#0b0b0b">education_article_comments</text>
+<text x="1595" y="1005" font-size="33" font-weight="600" fill="#0b0b0b">quizzes</text>
+<text x="1595" y="1051" font-size="33" font-weight="600" fill="#0b0b0b">quiz_questions</text>
+<text x="1595" y="1097" font-size="33" font-weight="600" fill="#0b0b0b">quiz_attempts</text>
+<text x="1595" y="1143" font-size="33" font-weight="600" fill="#0b0b0b">gamification_point_ledgers</text>
+<rect x="2315" y="40" width="620" height="238" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M2315,60 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e1f1e8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="2625" y="92" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Infaq</text>
+<text x="2625" y="135.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">2 tables</text>
+<rect x="2329" y="174" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="205" font-size="33" font-weight="700" fill="#0b0b0b">infaq_programs</text>
+<rect x="2329" y="220" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="251" font-size="33" font-weight="700" fill="#0b0b0b">infaq_orders</text>
+<rect x="2315" y="334" width="620" height="376" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M2315,354 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e1f1e8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="2625" y="386" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Zakat</text>
+<text x="2625" y="429.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">5 tables</text>
+<rect x="2329" y="468" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="499" font-size="33" font-weight="700" fill="#0b0b0b">zakat_calculations</text>
+<rect x="2329" y="514" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="545" font-size="33" font-weight="700" fill="#0b0b0b">zakat_orders</text>
+<text x="2345" y="591" font-size="33" font-weight="600" fill="#0b0b0b">zakat_fitrah_config</text>
+<text x="2345" y="637" font-size="33" font-weight="600" fill="#0b0b0b">zakat_gold_price_history</text>
+<text x="2345" y="683" font-size="33" font-weight="600" fill="#0b0b0b">zakat_distributions</text>
+<rect x="2315" y="766" width="620" height="468" rx="20" fill="#fff" stroke="#0b0b0b" stroke-width="4.5"/>
+<path d="M2315,786 a20,20 0 0 1 20,-20 h580 a20,20 0 0 1 20,20 v102 h-620 z" fill="#e1f1e8" stroke="#0b0b0b" stroke-width="4.5"/>
+<text x="2625" y="818" font-size="42" font-weight="700" fill="#0b0b0b" text-anchor="middle">Qurban</text>
+<text x="2625" y="861.44" font-size="30" font-weight="600" fill="#222" text-anchor="middle">7 tables</text>
+<rect x="2329" y="900" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="931" font-size="33" font-weight="700" fill="#0b0b0b">hewan_batches</text>
+<rect x="2329" y="946" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="977" font-size="33" font-weight="700" fill="#0b0b0b">qurban_animal_slots</text>
+<rect x="2329" y="992" width="592" height="40" rx="8" fill="#ffe9a8" stroke="#0b0b0b" stroke-width="2"/>
+<text x="2345" y="1023" font-size="33" font-weight="700" fill="#0b0b0b">qurban_orders</text>
+<text x="2345" y="1069" font-size="33" font-weight="600" fill="#0b0b0b">qurban_distribution_reports</text>
+<text x="2345" y="1115" font-size="33" font-weight="600" fill="#0b0b0b">qurban_distribution_allocations</text>
+<text x="2345" y="1161" font-size="33" font-weight="600" fill="#0b0b0b">setoran_petugas_lapangan</text>
+<text x="2345" y="1207" font-size="33" font-weight="600" fill="#0b0b0b">setoran_qurban_order_links</text>
+<text x="65" y="1412" font-size="36" font-weight="600" fill="#222" text-anchor="start">61 PostgreSQL tables in 11 functional domains (Drizzle ORM schema · 29 enums · 26 additive migrations). Highlighted rows: core transactional entities.</text>
+<text x="65" y="1459.52" font-size="36" font-weight="600" fill="#222" text-anchor="start">Arrows: foreign-key dependencies between domains (e.g. every *_orders table references transactions; waqf_programs references nadzir_profiles).</text>
+<text x="65" y="1507.04" font-size="36" font-weight="600" fill="#222" text-anchor="start">Most domain tables also reference users (Identity &amp; Access); those edges are omitted for clarity. Column definitions are omitted.</text>
+</svg>
