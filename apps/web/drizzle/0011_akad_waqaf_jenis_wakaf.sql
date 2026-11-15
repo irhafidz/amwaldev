@@ -1,1 +1,0 @@
-ALTER TABLE "akad_waqaf_master" ADD COLUMN "jenis_wakaf" "WaqfType";
